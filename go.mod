@@ -1,4 +1,4 @@
-module training-app
+module github.com/trooffEE/training-app
 
 go 1.25.1
 

@@ -9,7 +9,7 @@ import (
 	"syscall"
 	"time"
 
-	"training-app/internal/server"
+	"github.com/trooffEE/training-app/internal/server"
 )
 
 func main() {

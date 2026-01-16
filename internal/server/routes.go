@@ -5,14 +5,15 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/trooffEE/training-app/cmd/web"
+
 	"github.com/a-h/templ"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
-	"training-app/cmd/web"
 )
 
-func (s *Server) RegisterRoutes() http.Handler {
+func (s *Server) MountRoutes() http.Handler {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
