@@ -9,7 +9,6 @@ CREATE TABLE machines (
     id   BIGSERIAL PRIMARY KEY,
     name TEXT      NOT NULL,
     description TEXT,
-    muscle_group_id BIGINT REFERENCES muscle_group(id) ON DELETE SET NULL,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 )
@@ -32,7 +31,7 @@ CREATE TABLE exercises (
     recommended_reps_amount SMALLINT,
     recommended_rest_duration INT,
     is_gym_required BOOLEAN,
-    tutorial_video_url VARCHAR(500),
+    video_tutorial_url VARCHAR(500),
     machine_id BIGINT REFERENCES machines(id) ON DELETE SET NULL,
     muscle_group_id BIGINT REFERENCES muscle_group(id) ON DELETE SET NULL,
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
