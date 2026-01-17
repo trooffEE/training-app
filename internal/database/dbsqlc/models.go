@@ -5,30 +5,31 @@
 package dbsqlc
 
 import (
-	"database/sql"
 	"time"
+
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type Exercise struct {
 	ID                      int64
 	Name                    string
-	Description             sql.NullString
-	Warning                 sql.NullString
-	RecommendedRepsAmount   sql.NullInt16
-	RecommendedRestDuration sql.NullInt32
-	IsGymRequired           sql.NullBool
-	VideoTutorialUrl        sql.NullString
-	MachineID               sql.NullInt64
-	MuscleGroupID           sql.NullInt64
+	Description             pgtype.Text
+	Warning                 pgtype.Text
+	RecommendedRepsAmount   pgtype.Int2
+	RecommendedRestDuration pgtype.Int4
+	IsGymRequired           pgtype.Bool
+	VideoTutorialUrl        pgtype.Text
+	MachineID               pgtype.Int8
+	MuscleGroupID           pgtype.Int8
 	UpdatedAt               time.Time
 	CreatedAt               time.Time
 }
 
 type ExercisesImage struct {
 	ID         int64
-	ExerciseID sql.NullInt64
+	ExerciseID pgtype.Int8
 	ImageUrl   string
-	AltText    sql.NullString
+	AltText    pgtype.Text
 	UpdatedAt  time.Time
 	CreatedAt  time.Time
 }
@@ -36,16 +37,16 @@ type ExercisesImage struct {
 type Machine struct {
 	ID          int64
 	Name        string
-	Description sql.NullString
+	Description pgtype.Text
 	UpdatedAt   time.Time
 	CreatedAt   time.Time
 }
 
 type MachinesImage struct {
 	ID        int64
-	MachineID sql.NullInt64
+	MachineID pgtype.Int8
 	ImageUrl  string
-	AltText   sql.NullString
+	AltText   pgtype.Text
 	UpdatedAt time.Time
 	CreatedAt time.Time
 }

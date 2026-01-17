@@ -8,6 +8,7 @@ sql:
       go:
         package: "dbsqlc"
         out: "/internal/database/dbsqlc"
+        sql_package: "pgx/v5"
         rename:
           ids: "IDs"
           ttl: "TTL"

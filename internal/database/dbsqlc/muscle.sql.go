@@ -14,7 +14,7 @@ INSERT INTO muscle_groups (name) VALUES ($1) RETURNING id, name
 `
 
 func (q *Queries) CreateMuscleGroup(ctx context.Context, name string) (MuscleGroup, error) {
-	row := q.db.QueryRowContext(ctx, createMuscleGroup, name)
+	row := q.db.QueryRow(ctx, createMuscleGroup, name)
 	var i MuscleGroup
 	err := row.Scan(&i.ID, &i.Name)
 	return i, err
@@ -25,7 +25,7 @@ DELETE FROM muscle_groups WHERE id = $1
 `
 
 func (q *Queries) DeleteMuscleGroup(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteMuscleGroup, id)
+	_, err := q.db.Exec(ctx, deleteMuscleGroup, id)
 	return err
 }
 
@@ -34,7 +34,7 @@ SELECT id, name FROM muscle_groups WHERE id = $1 LIMIT 1
 `
 
 func (q *Queries) GetMuscleGroup(ctx context.Context, id int64) (MuscleGroup, error) {
-	row := q.db.QueryRowContext(ctx, getMuscleGroup, id)
+	row := q.db.QueryRow(ctx, getMuscleGroup, id)
 	var i MuscleGroup
 	err := row.Scan(&i.ID, &i.Name)
 	return i, err
@@ -45,7 +45,7 @@ SELECT id, name FROM muscle_groups
 `
 
 func (q *Queries) ListMuscleGroup(ctx context.Context) ([]MuscleGroup, error) {
-	rows, err := q.db.QueryContext(ctx, listMuscleGroup)
+	rows, err := q.db.Query(ctx, listMuscleGroup)
 	if err != nil {
 		return nil, err
 	}
@@ -57,9 +57,6 @@ func (q *Queries) ListMuscleGroup(ctx context.Context) ([]MuscleGroup, error) {
 			return nil, err
 		}
 		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
 	}
 	if err := rows.Err(); err != nil {
 		return nil, err
@@ -77,7 +74,7 @@ type UpdateMuscleGroupParams struct {
 }
 
 func (q *Queries) UpdateMuscleGroup(ctx context.Context, arg UpdateMuscleGroupParams) (MuscleGroup, error) {
-	row := q.db.QueryRowContext(ctx, updateMuscleGroup, arg.ID, arg.Name)
+	row := q.db.QueryRow(ctx, updateMuscleGroup, arg.ID, arg.Name)
 	var i MuscleGroup
 	err := row.Scan(&i.ID, &i.Name)
 	return i, err
