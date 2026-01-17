@@ -1,10 +1,23 @@
+# Example https://github.com/riverqueue/river/blob/fc667eb33b2427f28ca335f5287610edaa2b7e93/riverdriver/riverpgxv5/internal/dbsqlc/sqlc.yaml
 version: "2"
 sql:
   - engine: "postgresql"
     queries: "/internal/database/queries/"
     schema: "/internal/database/migrations/"
-#    gen:
-#      go:
-#        package: "tutorial"
-#        out: "tutorial"
-#        sql_package: "pgx/v5"
+    gen:
+      go:
+        package: "dbsqlc"
+        out: "/internal/database/dbsqlc"
+        rename:
+          ids: "IDs"
+          ttl: "TTL"
+        overrides:
+          - db_type: "pg_catalog.interval"
+            go_type: "time.Duration"
+          - db_type: "timestamptz"
+            go_type: "time.Time"
+          - db_type: "timestamptz"
+            go_type:
+              type: "time.Time"
+              pointer: true
+            nullable: true
