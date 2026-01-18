@@ -20,8 +20,8 @@ templ AuthPage() {
 							Training Admin 💪
 						</div>
 					</header>
-					<div class="p-10 z-10 relative items-center justify-center">
-						@LoginForm()
+					<div class="p-5 md:p-10 z-10 relative flex items-center justify-center">
+						@LoginForm(nil)
 					</div>
 					<div class="absolute inset-0">
 						<div class="absolute top-0 z-[-2] h-screen w-full bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
@@ -32,7 +32,7 @@ templ AuthPage() {
 	</html>
 }
 
-templ LoginForm() {
+templ LoginForm(err *FormResponse) {
 	<div class="card w-full max-w-2xl" id="auth-container">
 		<header>
 			<h2>Авторизация</h2>
@@ -42,13 +42,25 @@ templ LoginForm() {
 			<form class="form grid gap-6" hx-post="/auth" hx-target="#auth-container">
 				<div class="grid gap-2">
 					<label for="demo-card-form-email">E-mail</label>
-					<input type="email" id="demo-card-form-email"/>
+					<input
+						type="email"
+						id="demo-card-form-email"
+						if err != nil && err.ContainsError("email") {
+							aria-invalid="true"
+						}
+					/>
 				</div>
 				<div class="grid gap-2">
 					<div class="flex items-center gap-2">
 						<label for="demo-card-form-password">Пароль</label>
 					</div>
-					<input type="password" id="demo-card-form-password"/>
+					<input
+						type="password"
+						id="demo-card-form-password"
+						if err != nil && err.ContainsError("password") {
+							aria-invalid="true"
+						}
+					/>
 				</div>
 				<footer class="flex flex-col items-center gap-2">
 					<button type="submit" class="btn w-full">Войти</button>
@@ -59,7 +71,7 @@ templ LoginForm() {
 	</div>
 }
 
-templ RegisterForm() {
+templ RegisterForm(err *FormResponse) {
 	<div class="card w-full max-w-2xl" id="auth-container">
 		<header>
 			<h2>Регистрация</h2>
@@ -69,13 +81,25 @@ templ RegisterForm() {
 			<form class="form grid gap-6" hx-post="/web/components/auth/login" hx-target="#auth-container" hx-swap="outerHTML">
 				<div class="grid gap-2">
 					<label for="demo-card-form-email">E-mail</label>
-					<input type="email" id="demo-card-form-email"/>
+					<input
+						type="email"
+						id="demo-card-form-email"
+						if err != nil && err.ContainsError("email") {
+							aria-invalid="true"
+						}
+					/>
 				</div>
 				<div class="grid gap-2">
 					<div class="flex items-center gap-2">
 						<label for="demo-card-form-password">Пароль</label>
 					</div>
-					<input type="password" id="demo-card-form-password"/>
+					<input
+						type="password"
+						id="demo-card-form-password"
+						if err != nil && err.ContainsError("password") {
+							aria-invalid="true"
+						}
+					/>
 				</div>
 				<footer class="flex flex-col items-center gap-2">
 					<button type="submit" class="btn-outline w-full">Зарегистрироваться</button>
