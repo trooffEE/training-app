@@ -27,8 +27,10 @@ func (s *Server) MountRoutes() http.Handler {
 	r.Handle("/assets/*", fileServer)
 
 	r.Get("/health", s.healthHandler)
-	r.Get("/auth", templ.Handler(web.AuthForm()).ServeHTTP)
+	r.Get("/auth", templ.Handler(web.AuthPage()).ServeHTTP)
 	r.Post("/auth", web.AuthWebHandler)
+	r.Post("/web/components/auth/register", web.RegisterWebHandler)
+	r.Post("/web/components/auth/login", web.LoginWebHandler)
 
 	return r
 }
