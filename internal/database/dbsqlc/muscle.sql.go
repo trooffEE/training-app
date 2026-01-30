@@ -10,7 +10,7 @@ import (
 )
 
 const createMuscleGroup = `-- name: CreateMuscleGroup :one
-INSERT INTO muscle_groups (name) VALUES ($1) RETURNING id, name
+INSERT INTO muscle_group (name) VALUES ($1) RETURNING id, name
 `
 
 func (q *Queries) CreateMuscleGroup(ctx context.Context, name string) (MuscleGroup, error) {
@@ -21,7 +21,7 @@ func (q *Queries) CreateMuscleGroup(ctx context.Context, name string) (MuscleGro
 }
 
 const deleteMuscleGroup = `-- name: DeleteMuscleGroup :exec
-DELETE FROM muscle_groups WHERE id = $1
+DELETE FROM muscle_group WHERE id = $1
 `
 
 func (q *Queries) DeleteMuscleGroup(ctx context.Context, id int64) error {
@@ -30,7 +30,7 @@ func (q *Queries) DeleteMuscleGroup(ctx context.Context, id int64) error {
 }
 
 const getMuscleGroup = `-- name: GetMuscleGroup :one
-SELECT id, name FROM muscle_groups WHERE id = $1 LIMIT 1
+SELECT id, name FROM muscle_group WHERE id = $1 LIMIT 1
 `
 
 func (q *Queries) GetMuscleGroup(ctx context.Context, id int64) (MuscleGroup, error) {
@@ -41,7 +41,7 @@ func (q *Queries) GetMuscleGroup(ctx context.Context, id int64) (MuscleGroup, er
 }
 
 const listMuscleGroup = `-- name: ListMuscleGroup :many
-SELECT id, name FROM muscle_groups
+SELECT id, name FROM muscle_group
 `
 
 func (q *Queries) ListMuscleGroup(ctx context.Context) ([]MuscleGroup, error) {
@@ -65,7 +65,7 @@ func (q *Queries) ListMuscleGroup(ctx context.Context) ([]MuscleGroup, error) {
 }
 
 const updateMuscleGroup = `-- name: UpdateMuscleGroup :one
-UPDATE muscle_groups SET name = $2 WHERE id = $1 RETURNING id, name
+UPDATE muscle_group SET name = $2 WHERE id = $1 RETURNING id, name
 `
 
 type UpdateMuscleGroupParams struct {

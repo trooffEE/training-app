@@ -1,3 +1,5 @@
+setup: install-migration generate-sql
+
 # Run the application
 run:
 	@go run cmd/api/main.go
@@ -10,9 +12,16 @@ docker-run:
 		docker-compose up --build; \
 	fi
 
-build:
-	@echo "Building..."
-	@go build -o main cmd/api/main.go
+generate-sql:
+	@sqlc generate
+
+build-api:
+	@echo "Building api..."
+	@go build -o api cmd/api/main.go
+
+build-telegram:
+	@echo "Building telegram..."
+	@go build -o telegram cmd/telegram/main.go
 
 # Shutdown DB container
 docker-down:
@@ -37,22 +46,37 @@ clean:
 	@echo "Cleaning..."
 	@rm -f main
 
-# Live Reload
-watch:
+watch-api:
 	@if command -v air > /dev/null; then \
-            air; \
-            echo "Watching...";\
-        else \
-            read -p "Go's 'air' is not installed on your machine. Do you want to install it? [Y/n] " choice; \
-            if [ "$$choice" != "n" ] && [ "$$choice" != "N" ]; then \
-                go install github.com/air-verse/air@latest; \
-                air; \
+                air -c ./cmd/api/.air.toml; \
                 echo "Watching...";\
             else \
-                echo "You chose not to install air. Exiting..."; \
-                exit 1; \
-            fi; \
-        fi
+                read -p "Go's 'air' is not installed on your machine. Do you want to install it? [Y/n] " choice; \
+                if [ "$$choice" != "n" ] && [ "$$choice" != "N" ]; then \
+                    go install github.com/air-verse/air@latest; \
+                    air; \
+                    echo "Watching api...";\
+                else \
+                    echo "You chose not to install air. Exiting..."; \
+                    exit 1; \
+                fi; \
+            fi
+
+watch-telegram:
+	@if command -v air > /dev/null; then \
+                air -c ./cmd/telegram/.air.toml; \
+                echo "Watching telegram...";\
+            else \
+                read -p "Go's 'air' is not installed on your machine. Do you want to install it? [Y/n] " choice; \
+                if [ "$$choice" != "n" ] && [ "$$choice" != "N" ]; then \
+                    go install github.com/air-verse/air@latest; \
+                    air; \
+                    echo "Watching...";\
+                else \
+                    echo "You chose not to install air. Exiting..."; \
+                    exit 1; \
+                fi; \
+            fi
 
 # Create Migration
 install-migration:
@@ -73,4 +97,4 @@ create-migration:
 		echo $$name && \
 		migrate create -ext sql -dir ./internal/database/migrations/ -seq $$name
 
-.PHONY: run test clean watch docker-run docker-down itest templ-install create-dump create-migration migration-down apply-dump install-migration
+.PHONY: setup run test clean watch docker-run docker-down itest templ-install create-dump create-migration migration-down apply-dump install-migration build-api build-telegram watch-api watch-telegram

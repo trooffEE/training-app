@@ -5,12 +5,11 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/trooffEE/training-app/internal/application/api/server"
 	"github.com/trooffEE/training-app/internal/application/core"
+	"github.com/trooffEE/training-app/internal/application/telegram/server"
 )
 
 func main() {
-
 	server := server.NewServer()
 
 	done := make(chan bool, 1)

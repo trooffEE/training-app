@@ -25,7 +25,7 @@ type Exercise struct {
 	CreatedAt               time.Time
 }
 
-type ExercisesImage struct {
+type ExerciseImage struct {
 	ID         int64
 	ExerciseID pgtype.Int8
 	ImageUrl   string
@@ -42,7 +42,7 @@ type Machine struct {
 	CreatedAt   time.Time
 }
 
-type MachinesImage struct {
+type MachineImage struct {
 	ID        int64
 	MachineID pgtype.Int8
 	ImageUrl  string
@@ -54,4 +54,10 @@ type MachinesImage struct {
 type MuscleGroup struct {
 	ID   int64
 	Name string
+}
+
+type User struct {
+	ID         int64
+	Username   pgtype.Text
+	TelegramID pgtype.Text
 }

@@ -1,5 +1,5 @@
 DROP TABLE muscle_group;
-DROP TABLE machines;
-DROP TABLE machines_images;
-DROP TABLE exercises;
-DROP TABLE exercises_images;
+DROP TABLE machine;
+DROP TABLE machine_image;
+DROP TABLE exercise;
+DROP TABLE exercise_image;

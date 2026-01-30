@@ -3,19 +3,42 @@ services:
     container_name: training-app-container
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: cmd/api/Dockerfile
       target: prod
     restart: unless-stopped
     ports:
-      - ${PORT}:${PORT}
+      - ${API_WEB_SERVER_PORT}:${API_WEB_SERVER_PORT}
     environment:
-      PORT: ${PORT}
+      API_WEB_SERVER_PORT: ${API_WEB_SERVER_PORT}
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
       DB_DATABASE: ${DB_DATABASE}
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
     depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - network
+  telegram:
+    container_name: training-telegram-container
+    build:
+      context: .
+      dockerfile: cmd/telegram/Dockerfile
+      target: prod
+    restart: unless-stopped
+    ports:
+      - ${TELEGRAM_WEB_SERVER_PORT}:${TELEGRAM_WEB_SERVER_PORT}
+    environment:
+      TELEGRAM_WEB_SERVER_PORT: ${TELEGRAM_WEB_SERVER_PORT}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      app:
+        condition: service_started
       database:
         condition: service_healthy
     networks:

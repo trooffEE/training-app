@@ -1,11 +1,18 @@
+-- Пользователи
+CREATE TABLE users (
+    id BIGSERIAL PRIMARY KEY,
+    username VARCHAR(40),
+    telegram_id VARCHAR(12)
+);
+
 -- Группа мышц
-CREATE TABLE muscle_groups (
+CREATE TABLE muscle_group (
     id   BIGSERIAL PRIMARY KEY,
     name TEXT      NOT NULL
 );
 
 -- Тренажеры
-CREATE TABLE machines (
+CREATE TABLE machine (
     id   BIGSERIAL PRIMARY KEY,
     name TEXT      NOT NULL,
     description TEXT,
@@ -13,7 +20,8 @@ CREATE TABLE machines (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE machines_images (
+-- Изображения тренажеров
+CREATE TABLE machine_image (
     id   BIGSERIAL PRIMARY KEY,
     machine_id BIGINT REFERENCES machines(id) ON DELETE CASCADE,
     image_url VARCHAR(500) NOT NULL,
@@ -23,7 +31,7 @@ CREATE TABLE machines_images (
 );
 
 -- Упражнения
-CREATE TABLE exercises (
+CREATE TABLE exercise (
     id   BIGSERIAL PRIMARY KEY,
     name TEXT      NOT NULL,
     description TEXT,
@@ -38,7 +46,8 @@ CREATE TABLE exercises (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE exercises_images (
+-- Изображения упражнения
+CREATE TABLE exercise_image (
     id   BIGSERIAL PRIMARY KEY,
     exercise_id BIGINT REFERENCES exercises(id) ON DELETE CASCADE,
     image_url VARCHAR(500) NOT NULL,
